@@ -1,0 +1,17 @@
+bin/
+obj/
+OmpSessionManager.Tests/bin/
+OmpSessionManager.Tests/obj/
+OmpSessionManager.Tests/TestResults/
+artifacts/
+.codex-ralph-state/
+ExcelVisibleAreaCopyTest.bas
+*.csproj.user
+*.user
+*.pfx
+*.pem
+*.key
+.env
+.env.*
+*.jsonl
+!samples/demo-agent/**/*.jsonl

@@ -1,0 +1,3 @@
+{"type":"title","title":"发布前检查示例"}
+{"type":"session","id":"demo-session-001","cwd":"C:\\Example\\OmpSessionManager","timestamp":"2026-10-15T08:00:00.000Z","title":"发布前检查示例"}
+{"type":"message","message":{"role":"user","content":[{"type":"text","text":"使用演示数据验证搜索、标记和恢复流程。"}]}}

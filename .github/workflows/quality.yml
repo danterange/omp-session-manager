@@ -1,0 +1,22 @@
+name: Quality Gate
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 9.0.x
+      - name: Run format, build, privacy scan and non-interactive tests
+        shell: pwsh
+        run: ./scripts/Invoke-QualityGate.ps1 -SkipUi -SkipPublish
