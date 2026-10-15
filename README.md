@@ -23,6 +23,8 @@
 
 当前发布物为 Windows x64、self-contained 版本，不要求预先安装 .NET Desktop Runtime。安装程序当前未进行代码签名，Windows 可能显示来源提示；请只从该仓库的 Release 页面下载，并先验证 SHA-256。
 
+当前公开 Release：`v1.0.0`。
+
 ### 快速使用
 
 1. 启动程序后等待首次扫描完成。
@@ -78,6 +80,8 @@ OMP Session Manager is a local Windows desktop utility for discovering, searchin
 Download the matching installer and its SHA-256 file from the GitHub Release, verify the hash, and run the installer. A portable ZIP is also available for extract-and-run use. Releases are self-contained Windows x64 builds, so no separate .NET Desktop Runtime is required.
 
 The installer is currently unsigned. Download only from this repository’s Release page and verify the checksum before installation. See the [installation and usage guide](docs/安装与使用.md) for verification, command-line options, and troubleshooting.
+
+Current public Release: `v1.0.0`.
 
 On first launch, wait for the scan to finish, search or select a session, then use the visible actions to resume it or manage its tags. The app tries the default OMP location first and then `PATH`; `--omp-executable <path>` overrides both.
 
