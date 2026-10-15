@@ -49,7 +49,7 @@ if ($localTagExitCode -ne 0 -and $localTagExitCode -ne 1) {
     throw 'Could not inspect the local release tag state.'
 }
 
-$remoteTagReference = @(& git ls-remote --tags origin "refs/tags/$tagName" 2>$null)
+$remoteTagReference = @(& git ls-remote --tags origin "refs/tags/$tagName" "refs/tags/$tagName^{}" 2>$null)
 $remoteTagExitCode = $LASTEXITCODE
 if ($remoteTagExitCode -ne 0) {
     throw 'Could not inspect the remote release tag state.'
@@ -68,6 +68,32 @@ if ($Resume) {
     $headCommitExitCode = $LASTEXITCODE
     if ($tagCommitExitCode -ne 0 -or $headCommitExitCode -ne 0 -or $tagCommit -ne $headCommit) {
         throw 'Resume requires main HEAD to match the existing release tag.'
+    }
+
+    $remotePeeledReference = @($remoteTagReference | Where-Object {
+        $referenceParts = $_ -split '\s+'
+        $referenceParts.Count -ge 2 -and $referenceParts[1] -eq "refs/tags/$tagName^{}"
+    })
+    $remoteTagCommit = if ($remotePeeledReference.Count -eq 1) {
+        ($remotePeeledReference[0] -split '\s+')[0]
+    }
+    elseif ($remoteTagReference.Count -eq 1) {
+        # A lightweight tag has no peeled ^{} reference; its only object ID is its commit target.
+        ($remoteTagReference[0] -split '\s+')[0]
+    }
+    else {
+        throw 'Resume could not resolve a unique remote release tag target.'
+    }
+
+    $remoteMainReference = @(& git ls-remote origin 'refs/heads/main' 2>$null)
+    $remoteMainExitCode = $LASTEXITCODE
+    if ($remoteMainExitCode -ne 0 -or $remoteMainReference.Count -ne 1) {
+        throw 'Resume could not resolve origin main.'
+    }
+
+    $remoteMainCommit = ($remoteMainReference[0] -split '\s+')[0]
+    if ($remoteTagCommit -ne $headCommit -or $remoteMainCommit -ne $headCommit) {
+        throw 'Resume requires origin main and the remote release tag to target local main HEAD.'
     }
 
     [xml]$versionDocument = Get-Content -LiteralPath (Join-Path $RepositoryRoot 'Directory.Build.props') -Raw

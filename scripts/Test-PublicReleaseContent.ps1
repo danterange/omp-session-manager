@@ -17,7 +17,7 @@ function Invoke-GitChecked {
         [string[]]$Arguments
     )
 
-    $output = & git @Arguments 2>$null
+    $output = & git -c core.quotePath=false @Arguments 2>$null
     if ($LASTEXITCODE -ne 0) {
         throw "Git command failed: git $($Arguments -join ' ')"
     }

@@ -38,6 +38,8 @@
 3. 脚本在通过历史隐私扫描后创建本地 Git commit、annotated tag、推送 `main` 和 tag，并用已认证的 GitHub CLI 创建 Release 与上传资产。
 4. 发布后下载或检查 Release 资产，验证 SHA-256，确认安装器、便携版和版本号一致。未签名安装程序的 Windows 来源提示必须如实保留。
 
+若 tag 和 `main` 已推送但 GitHub Release 创建中断，先核实 tag 与 `main` HEAD 一致且工作区干净，再以相同版本号加 `-Resume` 重试；不得新建第二个 tag 或额外 commit。
+
 如 `gh` 未登录、权限不足、版本 tag 已存在、分支不是 `main`、安装器编译器缺失或质量门禁失败，立即停止；不得跳过检查、猜测凭据或伪称已发布。
 
 ## 自动化质量门禁
